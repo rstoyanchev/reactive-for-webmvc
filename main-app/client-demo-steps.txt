@@ -1,0 +1,7 @@
+1.  RestTemplate sync, sequential calls
+2a. WebClient deferred nature. Need to subscribe (consume, collect, block)
+2b. Compose on completion of multiple requests
+2c. Singe chain. Try also concatMap, .then().block(), .then(Publisher), etc.
+2d. Retrieve vs exchange (consume body, ResponseEntity), builder options
+2e. Inter-dependant, nested calls
+3.  Streaming, lifecycle
