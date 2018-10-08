@@ -11,7 +11,7 @@ public class Step3a {
 
 	public static void main(String[] args) {
 
-		client.get().uri("/persons/stream")
+		client.get().uri("/persons/events")
 				.retrieve()
 				.bodyToFlux(Person.class)
 				.take(4)
