@@ -48,7 +48,8 @@ public class RemoteServicesApp {
 				})
 				.GET("/persons/events", request -> {
 					Flux<ServerSentEvent<Map<String, Object>>> stream =
-							Flux.interval(Duration.ofSeconds(2))
+							Flux.interval(Duration.ofSeconds(2), Duration.ofSeconds(1))
+									.take(12)
 									.map(i -> PERSON_DATA.get((i % 10) + 1))
 									.map(data -> ServerSentEvent.builder(data).build());
 					return ServerResponse.ok().body(fromServerSentEvents(stream));
