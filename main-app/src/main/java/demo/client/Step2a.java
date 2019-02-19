@@ -2,10 +2,13 @@ package demo.client;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import demo.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,8 +23,13 @@ public class Step2a {
 
 		Instant start = Instant.now();
 
+		List<Mono<Person>> monos = new ArrayList<>();
 		for (int i = 1; i <= 3; i++) {
-			client.get().uri("/person/{id}", i).retrieve().bodyToMono(Person.class);
+			Mono<Person> personMono = client.get().uri("/person/{id}", i)
+					.retrieve()
+					.bodyToMono(Person.class);
+
+			monos.add(personMono);
 		}
 
 		logTime(start);

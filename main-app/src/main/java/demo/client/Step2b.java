@@ -25,7 +25,7 @@ public class Step2b {
 		Instant start = Instant.now();
 
 		List<Mono<Person>> list = Stream.of(1, 2, 3)
-				.map(i -> client.get().uri("/person/{id}", i).retrieve().bodyToMono(Person.class))
+				.map(anInt -> client.get().uri("/person/{id}", anInt).retrieve().bodyToMono(Person.class))
 				.collect(Collectors.toList());
 
 		Mono.when(list).block();

@@ -52,6 +52,7 @@ public class MainAppTests {
 
 	@Test
 	public void personsEvents() {
+
 		Flux<Person> body = this.client.get().uri("/persons/events")
 				.exchange()
 				.expectStatus().isOk()
@@ -59,6 +60,7 @@ public class MainAppTests {
 				.returnResult(Person.class)
 				.getResponseBody()
 				.take(3);
+
 		StepVerifier.create(body)
 				.expectNext(new Person(1L, "Amanda"))
 				.expectNext(new Person(2L, "Brittany"))

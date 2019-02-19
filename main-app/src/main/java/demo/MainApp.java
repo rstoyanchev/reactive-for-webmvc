@@ -19,7 +19,7 @@ public class MainApp {
 	public CommandLineRunner initData(AccountRepository repository) {
 		return args -> {
 			Flux<Account> accounts = Flux.just(
-					new Account(1L, 680, 9L),
+					new Account(1L, 680, 9L),	// id, score, personId
 					new Account(2L, 755, 7L),
 					new Account(3L, 798, 2L),
 					new Account(4L, 691, 6L),
