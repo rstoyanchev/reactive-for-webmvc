@@ -30,23 +30,19 @@ public class MainController {
 	}
 
 
-	@GetMapping("/person/{id}")
-	Mono<Person> getPerson(@PathVariable Long id) {
-		return this.client.get().uri("/person/{id}?delay=2", id)
-				.retrieve()
-				.bodyToMono(Person.class);
-	}
-
 	@GetMapping("/persons")
 	Flux<Person> getPersons() {
-		return client.get().uri("/persons?delay=2")
-				.retrieve()
-				.bodyToFlux(Person.class);
+		return client.get().uri("/persons?delay=2").retrieve().bodyToFlux(Person.class);
+	}
+
+	@GetMapping("/person/{id}")
+	Mono<Person> getPerson(@PathVariable Long id) {
+		return this.client.get().uri("/person/{id}?delay=2", id).retrieve().bodyToMono(Person.class);
 	}
 
 	@GetMapping(path = "/persons/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	Flux<Person> getPersonStream() {
-		return client.get().uri("/persons/events")
+		return this.client.get().uri("/persons/events")
 				.accept(MediaType.TEXT_EVENT_STREAM)
 				.retrieve()
 				.bodyToFlux(Person.class);
@@ -54,8 +50,7 @@ public class MainController {
 
 	@GetMapping("/accounts/hobbies")
 	Flux<Map<String, String>> getTopAccountHobbies() {
-
-		return accountRepository.findAll(BY_SCORE_SORT)
+		return this.accountRepository.findAll(BY_SCORE_SORT)
 				.take(5)
 				.flatMapSequential(account -> {
 					Long personId = account.getPersonId();

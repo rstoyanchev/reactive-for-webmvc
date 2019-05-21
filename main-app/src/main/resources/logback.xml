@@ -6,7 +6,9 @@
 		</encoder>
 	</appender>
 	<logger name="demo" level="DEBUG" />
-	<logger name="org.springframework.web" level="DEBUG" />
+	<logger name="org.springframework.web" level="INFO" />
+	<logger name="reactor.netty" level="INFO" />
+	<logger name="io.netty" level="INFO" />
 	<root level="warn">
 		<appender-ref ref="STDOUT" />
 	</root>

@@ -22,7 +22,9 @@ public class Step2c {
 		Instant start = Instant.now();
 
 		Flux.range(1, 3)
+				.doOnNext(i -> System.out.println("Getting id=" + i))
 				.flatMap(i -> client.get().uri("/person/{id}", i).retrieve().bodyToMono(Person.class))
+				.doOnNext(person -> System.out.println("Got " + person))
 				.blockLast();
 
 		logTime(start);
@@ -30,7 +32,7 @@ public class Step2c {
 
 
 	private static void logTime(Instant start) {
-		logger.debug("Elapsed time: " + Duration.between(start, Instant.now()).toMillis() + "ms");
+		logger.debug("Total: " + Duration.between(start, Instant.now()).toMillis() + " millis");
 	}
 
 }

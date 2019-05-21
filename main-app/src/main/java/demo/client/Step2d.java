@@ -24,14 +24,15 @@ public class Step2d {
 		Instant start = Instant.now();
 
 		Flux.range(1, 3)
-				.flatMap(i -> client.get().uri("/person/{id}", i)
-						.exchange()
-						.flatMap(response -> {
-							HttpStatus status = response.statusCode();
-							HttpHeaders headers = response.headers().asHttpHeaders();
-							logger.debug("Got status=" + status + ", headers=" + headers);
-							return response.bodyToMono(Person.class);
-						}))
+				.doOnNext(i -> System.out.println("Getting id=" + i))
+				.flatMap(i -> client.get().uri("/person/{id}", i).exchange())
+				.flatMap(response -> {
+					HttpStatus status = response.statusCode();
+					HttpHeaders headers = response.headers().asHttpHeaders();
+					System.out.println(status + " " + headers);
+					return response.bodyToMono(Person.class);
+				})
+				.doOnNext(person -> System.out.println("Got " + person))
 				.blockLast();
 
 		logTime(start);

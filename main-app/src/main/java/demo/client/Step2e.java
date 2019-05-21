@@ -23,12 +23,17 @@ public class Step2e {
 		Instant start = Instant.now();
 
 		Flux.range(1, 3)
-				.flatMap(i -> client.get().uri("/person/{id}", i)
-						.retrieve()
-						.bodyToMono(Person.class)
-						.flatMap(person -> client.get().uri("/person/{id}/hobby", i)
+				.doOnNext(i -> System.out.println("Getting id=" + i))
+				.flatMap(i ->
+						client.get().uri("/person/{id}", i)
 								.retrieve()
-								.bodyToMono(Hobby.class)))
+								.bodyToMono(Person.class))
+				.doOnNext(i -> System.out.println("Getting hobbies for id=" + i))
+				.flatMap(person ->
+						client.get().uri("/person/{id}/hobby", person.getId())
+								.retrieve()
+								.bodyToMono(Hobby.class))
+				.doOnNext(hobby -> System.out.println("Got " + hobby))
 				.blockLast();
 
 		logTime(start);
@@ -36,7 +41,7 @@ public class Step2e {
 
 
 	private static void logTime(Instant start) {
-		logger.debug("Elapsed time: " + Duration.between(start, Instant.now()).toMillis() + "ms");
+		logger.debug("Total: " + Duration.between(start, Instant.now()).toMillis() + " millis");
 	}
 
 }

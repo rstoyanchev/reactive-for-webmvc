@@ -27,7 +27,9 @@ public class Step1a {
 		Instant start = Instant.now();
 
 		for (int i = 1; i <= 3; i++) {
-			restTemplate.getForObject("/person/{id}", Person.class, i);
+			System.out.println("Getting id=" + i);
+			Person person = restTemplate.getForObject("/person/{id}", Person.class, i);
+			System.out.println("Got " + person);
 		}
 
 		logTime(start);
@@ -35,7 +37,7 @@ public class Step1a {
 
 
 	private static void logTime(Instant start) {
-		logger.debug("Elapsed time: " + Duration.between(start, Instant.now()).toMillis() + "ms");
+		logger.debug("Total: " + Duration.between(start, Instant.now()).toMillis() + " millis");
 	}
 
 }
